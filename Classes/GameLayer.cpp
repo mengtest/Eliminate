@@ -203,7 +203,6 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 	auto element = all_elments.find(index);
 	CCAssert(element != all_elments.end(), "");
 
-	unsigned int lenght = 0;
 	std::set<MapIndex> temp_set;
 	std::set<MapIndex> return_set;
 	const int type = (*element).second->GetType();
@@ -216,12 +215,11 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 		auto itr = all_elments.find(MapIndex(index.row, col));
 		if (itr != all_elments.end() && (*itr).second->GetType() == type)
 		{
-			++lenght;
 			temp_set.insert(MapIndex(index.row, col));
 		}
 		else
 		{
-			if (lenght >= 3)
+			if (temp_set.size() >= 3)
 			{
 				if (temp_set.find(index) != temp_set.end())
 				{
@@ -232,12 +230,10 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 					temp_set.clear();
 				}
 			}
-			lenght = 0;
 			temp_set.clear();
 		}
 	}
 	if (temp_set.size() < 3) temp_set.clear();
-	lenght = 0;
 
 	// 纵向遍历
 	for (int row = 0; row < height; ++row)
@@ -245,12 +241,11 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 		auto itr = all_elments.find(MapIndex(row, index.col));
 		if (itr != all_elments.end() && (*itr).second->GetType() == type)
 		{
-			++lenght;
 			return_set.insert(MapIndex(row, index.col));
 		}
 		else
 		{
-			if (lenght >= 3)
+			if (return_set.size() >= 3)
 			{
 				if (return_set.find(index) != return_set.end())
 				{
@@ -261,7 +256,6 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 					return_set.clear();
 				}
 			}
-			lenght = 0;
 			return_set.clear();
 
 		}
