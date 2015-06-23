@@ -42,6 +42,21 @@ bool GameLayer::init()
 	return true;
 }
 
+// 获取首行
+int GameLayer::GetFirstLine()
+{
+	for (int idx = 0; idx < map_config_.width * map_config_.height; ++idx)
+	{
+		if (map_config_.data[idx])
+		{
+			return idx / map_config_.width;
+		}
+	}
+
+	CCAssert(false, "invalid map!");
+	return 0;
+}
+
 // 获取起点坐标
 inline cocos2d::Vec2 GameLayer::GetStartPoint() const
 {
@@ -293,6 +308,7 @@ void GameLayer::FillElements(const MapIndex &source, const MapIndex &target)
 		}
 	};
 
+	// 源元素和目标元素交换属性
 	auto itr = all_elments.find(source);
 	(*itr).second->SetIndex(target);
 	(*itr).second->Fill(Config::GetInstance()->GetElementFillTime(), ConvertToPosition(target), _fill_callback_);
@@ -362,17 +378,18 @@ inline void GameLayer::CalculSouchScope(const MapIndex &index)
 }
 
 // 填充元素
-void GameLayer::FillElements()
+void GameLayer::FillFristLineElements()
 {
 	char buffer[128];
-
-	// 补充第一行元素
 	Vec2 start_point = GetStartPoint();
+	const int frist_line = GetFirstLine();
 	const int width = Config::GetInstance()->GetElementWidth();
 	const int height = Config::GetInstance()->GetElementHeight();
+
 	for (int col = 0; col < map_config_.width; ++col)
 	{
-		if (map_config_.data[col] && (all_elments.find(MapIndex(0, col)) == all_elments.end()))
+		const int idx = frist_line * map_config_.width + col;
+		if (map_config_.data[idx] && (all_elments.find(MapIndex(frist_line, col)) == all_elments.end()))
 		{
 			Element *element = nullptr;
 			int type = RandElementType();
@@ -391,17 +408,25 @@ void GameLayer::FillElements()
 			}
 
 			element->SetType(type);
-			element->SetIndex(MapIndex(0, col));
+			element->SetIndex(MapIndex(frist_line, col % map_config_.width));
 			element->setSpriteFrame(buffer);
-			element->setPosition(ConvertToPosition(MapIndex(0, col)));
+			element->setPosition(ConvertToPosition(MapIndex(frist_line, col % map_config_.width)));
 			moved_elements_.insert(element->GetIndex());
 			all_elments.insert(std::make_pair(element->GetIndex(), element));
 		}
 	}
+}
+
+void GameLayer::FillElements()
+{
+	// 补充第一行元素
+	FillFristLineElements();
 
 	// 向下填充元素
 	unsigned int before_size = 0;
 	std::set<MapIndex> moved_set;
+	const int frist_line = GetFirstLine();
+
 	do
 	{
 		before_size = moved_set.size();
@@ -428,7 +453,7 @@ void GameLayer::FillElements()
 						moved_set.insert(MapIndex(row + 1, col));
 					}
 					// 横向移动
-					else if (row - 1 >= 0)
+					else if (row > frist_line)
 					{
 						// 如果左边是空格并且空格上方没有元素
 						if (col - 1 >= 0

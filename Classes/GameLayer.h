@@ -45,6 +45,11 @@ private:
 	cocos2d::Vec2 GetStartPoint() const;
 
 	/**
+	 * 获取首行
+	 */
+	int GetFirstLine();
+
+	/**
 	 * 转换到全局坐标
 	 */
 	cocos2d::Vec2 ConvertToPosition(const MapIndex &index) const;
@@ -96,6 +101,7 @@ private:
 	 * 填充元素
 	 */
 	void FillElements();
+	void FillFristLineElements();
 	void FillElements(const MapIndex &source, const MapIndex &target);
 
 	/**
