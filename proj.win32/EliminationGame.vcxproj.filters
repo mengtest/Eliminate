@@ -10,6 +10,12 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\AStar">
+      <UniqueIdentifier>{a525c3a2-f34b-4bb6-ae11-fbac5ddae9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Misc">
+      <UniqueIdentifier>{80e43451-e772-4a94-8e71-2356e54be6d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -18,8 +24,29 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+    <ClCompile Include="..\Classes\Config.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Element.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\VisibleRect.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AStar\AStar.cpp">
+      <Filter>src\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Misc\BlockAllocator.cpp">
+      <Filter>src\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Misc\Singleton.cpp">
+      <Filter>src\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,7 +56,34 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
+    <ClInclude Include="..\Classes\AStar.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Config.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Element.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\VisibleRect.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Misc\BlockAllocator.h">
+      <Filter>src\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Misc\NonCopyable.h">
+      <Filter>src\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Misc\Singleton.h">
+      <Filter>src\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Types.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

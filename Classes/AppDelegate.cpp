@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -22,35 +22,26 @@ void AppDelegate::initGLContextAttrs()
     GLView::setGLContextAttrs(glContextAttrs);
 }
 
-// If you want to use packages manager to install more packages, 
-// don't modify or remove this function
-static int register_all_packages()
-{
-    return 0; //flag for packages manager
-}
-
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("My Game");
+        glview = GLViewImpl::create("EliminationGame");
+		glview->setFrameSize(760, 580);
         director->setOpenGLView(glview);
     }
 
     // turn on display FPS
     director->setDisplayStats(true);
 
+	glview->setDesignResolutionSize(760, 580, ResolutionPolicy::EXACT_FIT);
+
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
-    register_all_packages();
-
-    // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
-
     // run
-    director->runWithScene(scene);
+	director->runWithScene(GameScene::create());
 
     return true;
 }
