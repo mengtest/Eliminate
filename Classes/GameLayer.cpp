@@ -219,16 +219,9 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 		}
 		else
 		{
-			if (temp_set.size() >= 3)
+			if (temp_set.size() >= 3 && (temp_set.find(index) != temp_set.end()))
 			{
-				if (temp_set.find(index) != temp_set.end())
-				{
-					break;
-				}
-				else
-				{
-					temp_set.clear();
-				}
+				break;
 			}
 			temp_set.clear();
 		}
@@ -245,19 +238,11 @@ std::set<MapIndex> GameLayer::GetCanEliminate(const MapIndex &index)
 		}
 		else
 		{
-			if (return_set.size() >= 3)
+			if (return_set.size() >= 3 && (return_set.find(index) != return_set.end()))
 			{
-				if (return_set.find(index) != return_set.end())
-				{
-					break;
-				}
-				else
-				{
-					return_set.clear();
-				}
+				break;
 			}
 			return_set.clear();
-
 		}
 	}
 	if (return_set.size() < 3) return_set.clear();
