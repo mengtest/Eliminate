@@ -52,7 +52,6 @@ int GameLayer::GetFirstLine()
 			return idx / map_config_.width;
 		}
 	}
-
 	CCAssert(false, "invalid map!");
 	return 0;
 }
@@ -77,13 +76,10 @@ Vec2 GameLayer::ConvertToPosition(const MapIndex &index) const
 MapIndex GameLayer::ConvertToMapIndex(const Vec2 &position) const
 {
 	Vec2 start_point = GetStartPoint();
-	const int width = map_config_.width;
-	const int height = map_config_.height;
 	auto config = Config::GetInstance();
-
-	for (int row = 0; row < height; ++row)
+	for (int row = 0; row < map_config_.height; ++row)
 	{
-		for (int col = 0; col < width; ++col)
+		for (int col = 0; col < map_config_.width; ++col)
 		{
 			float frist_col = start_point.x + col * config->GetElementWidth();
 			float last_col = start_point.x + (col + 1) * config->GetElementWidth();
@@ -95,7 +91,6 @@ MapIndex GameLayer::ConvertToMapIndex(const Vec2 &position) const
 			}
 		}
 	}
-
 	return MapIndex(INVALID_INDEX, INVALID_INDEX);
 }
 
@@ -294,12 +289,12 @@ std::set<MapIndex> GameLayer::GetToBeEliminated(Element *a, Element *b)
 	return eliminate_set;
 }
 
-// 填充元素
-void GameLayer::FillElements(const MapIndex &source, const MapIndex &target)
+// 移动元素
+void GameLayer::MoveElements(const MapIndex &source, const MapIndex &target)
 {
 	static int count = 0;
 
-	// 填充回调函数
+	// 回调函数
 	auto _fill_callback_ = [&]()
 	{
 		if (--count == 0)
@@ -324,12 +319,6 @@ void GameLayer::FillElements(const MapIndex &source, const MapIndex &target)
 // 计算最短距离
 int GameLayer::ShortestDistance(const MapIndex &index)
 {
-	// 堆比较函数
-	auto __comp__ = [](int a, int b)->bool
-	{
-		return a > b;
-	};
-
 	// 求最短距离
 	std::vector<int> heap;
 	for (int col = 0; col < map_config_.width; ++col)
@@ -352,7 +341,10 @@ int GameLayer::ShortestDistance(const MapIndex &index)
 			if (distance > 0)
 			{
 				heap.push_back(distance);
-				std::push_heap(heap.begin(), heap.end(), __comp__);
+				std::push_heap(heap.begin(), heap.end(), [](int a, int b)->bool
+				{
+					return a > b;
+				});
 			}
 		}
 	}
@@ -377,7 +369,7 @@ inline void GameLayer::CalculSouchScope(const MapIndex &index)
 	search_scope_[3] = search_scope_[3] == -1 ? index.col : index.col > search_scope_[3] ? index.col : search_scope_[3];
 }
 
-// 填充元素
+// 填充首行元素
 void GameLayer::FillFristLineElements()
 {
 	char buffer[128];
@@ -407,16 +399,22 @@ void GameLayer::FillFristLineElements()
 				free_elements.pop_back();
 			}
 
+			// 跳转层级
+			element->setLocalZOrder(1);
+			element->setLocalZOrder(0);
+
+			// 设置属性
 			element->SetType(type);
-			element->SetIndex(MapIndex(frist_line, col % map_config_.width));
+			element->SetIndex(MapIndex(frist_line, col));
 			element->setSpriteFrame(buffer);
-			element->setPosition(ConvertToPosition(MapIndex(frist_line, col % map_config_.width)));
+			element->setPosition(ConvertToPosition(MapIndex(frist_line, col)));
 			moved_elements_.insert(element->GetIndex());
 			all_elments.insert(std::make_pair(element->GetIndex(), element));
 		}
 	}
 }
 
+// 填充元素
 void GameLayer::FillElements()
 {
 	// 补充第一行元素
@@ -426,7 +424,6 @@ void GameLayer::FillElements()
 	unsigned int before_size = 0;
 	std::set<MapIndex> moved_set;
 	const int frist_line = GetFirstLine();
-
 	do
 	{
 		before_size = moved_set.size();
@@ -449,7 +446,7 @@ void GameLayer::FillElements()
 						&& (map_config_.data[(row + 1) * map_config_.width + col])
 						&& (all_elments.find(MapIndex(row + 1, col)) == all_elments.end()))
 					{
-						FillElements(MapIndex(row, col), MapIndex(row + 1, col));
+						MoveElements(MapIndex(row, col), MapIndex(row + 1, col));
 						moved_set.insert(MapIndex(row + 1, col));
 					}
 					// 横向移动
@@ -466,21 +463,21 @@ void GameLayer::FillElements()
 							{
 								if (ShortestDistance(MapIndex(row, col)) <= ShortestDistance(MapIndex(row, col - 2)))
 								{
-									FillElements(MapIndex(row, col), MapIndex(row, col - 1));
+									MoveElements(MapIndex(row, col), MapIndex(row, col - 1));
 									moved_set.insert(MapIndex(row, col - 1));
 									continue;
 								}
 								else if ((all_elments.find(MapIndex(row, col - 2)) != all_elments.end())
 										 && moved_set.find(MapIndex(row, col - 2)) == moved_set.end())
 								{
-									FillElements(MapIndex(row, col - 2), MapIndex(row, col - 1));
+									MoveElements(MapIndex(row, col - 2), MapIndex(row, col - 1));
 									moved_set.insert(MapIndex(row, col - 1));
 									continue;
 								}
 							}
 							else
 							{
-								FillElements(MapIndex(row, col), MapIndex(row, col - 1));
+								MoveElements(MapIndex(row, col), MapIndex(row, col - 1));
 								moved_set.insert(MapIndex(row, col - 1));
 								continue;
 							}
@@ -497,21 +494,21 @@ void GameLayer::FillElements()
 							{
 								if (ShortestDistance(MapIndex(row, col)) <= ShortestDistance(MapIndex(row, col + 2)))
 								{
-									FillElements(MapIndex(row, col), MapIndex(row, col + 1));
+									MoveElements(MapIndex(row, col), MapIndex(row, col + 1));
 									moved_set.insert(MapIndex(row, col + 1));
 									continue;
 								}
 								else if ((all_elments.find(MapIndex(row, col + 2)) != all_elments.end())
 										 && moved_set.find(MapIndex(row, col + 2)) == moved_set.end())
 								{
-									FillElements(MapIndex(row, col + 2), MapIndex(row, col + 1));
+									MoveElements(MapIndex(row, col + 2), MapIndex(row, col + 1));
 									moved_set.insert(MapIndex(row, col + 1));
 									continue;
 								}
 							}
 							else
 							{
-								FillElements(MapIndex(row, col), MapIndex(row, col + 1));
+								MoveElements(MapIndex(row, col), MapIndex(row, col + 1));
 								moved_set.insert(MapIndex(row, col + 1));
 								continue;
 							}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="8" tilewidth="90" tileheight="90" nextobjectid="1">
  <tileset firstgid="1" name="Chrysanthemum" tilewidth="90" tileheight="90">
-  <image source="tiled.png" width="1024" height="768"/>
+  <image source="tiled.png" width="90" height="90"/>
  </tileset>
  <layer name="3" width="8" height="8">
   <data encoding="base64" compression="zlib">
-   eJxjZMANmICYEYrRASMWzISmhxiMyzxCdsHU4LMT3f3Y2AAY5AA1
+   eJxjYGBgYIRiGCCFz0ghxmcGun2k6CUWAwAY6AA1
   </data>
  </layer>
 </map>

@@ -1,9 +1,7 @@
 ﻿/**************************************************
 游戏操作层/核心算法
 **************************************************/
-
 #pragma once
-
 
 #include <map>
 #include <array>
@@ -20,7 +18,6 @@ public:
 	GameLayer();
 	~GameLayer();
 
-	/* 什么都不做 */
 	virtual bool init() override;
 
 	CREATE_FUNC(GameLayer);
@@ -39,15 +36,15 @@ public:
 
 private:
 	/**
+	 * 获取首行
+	 */
+	int GetFirstLine();
+
+	/**
 	 * 获取起点坐标
 	 * @return 起点坐标
 	 */
 	cocos2d::Vec2 GetStartPoint() const;
-
-	/**
-	 * 获取首行
-	 */
-	int GetFirstLine();
 
 	/**
 	 * 转换到全局坐标
@@ -102,7 +99,12 @@ private:
 	 */
 	void FillElements();
 	void FillFristLineElements();
-	void FillElements(const MapIndex &source, const MapIndex &target);
+
+	/**
+	 * 移动元素
+	 * 将source索引上的元素移动到target索引所在的位置上
+	 */
+	void MoveElements(const MapIndex &source, const MapIndex &target);
 
 	/**
 	 * 执行消除
