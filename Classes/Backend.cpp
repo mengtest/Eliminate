@@ -421,7 +421,7 @@ bool Backend::AutoMoveSprite()
 					// 横向移动
 					else if (row > frist_line)
 					{
-						// 如果左边是空格并且空格上方没有元素
+						// 如果左边是空格并且空格上方没有精灵
 						if (col - 1 >= 0
 							&& (config_.data[current_idx - 1])
 							&& (!config_.data[previous_row_idx - 1])
@@ -455,7 +455,7 @@ bool Backend::AutoMoveSprite()
 							}
 						}
 
-						// 如果右边是空格并且空格上方没有元素
+						// 如果右边是空格并且空格上方没有精灵
 						if (col + 1 < config_.width
 							&& (config_.data[current_idx + 1])
 							&& (!config_.data[previous_row_idx + 1])

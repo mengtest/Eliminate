@@ -94,7 +94,7 @@ public:
 
 	/**
 	 * 索引上是否存在有效精灵
-	 * @param 元素索引
+	 * @param 精灵索引
 	 */
 	bool IsValidSprite(const MapIndex &index);
 
@@ -111,7 +111,7 @@ public:
 	/**
 	 * 遍历地图
 	 * @param step 回调函数
-	 * VisitCallback type=-1表示此索引什么都没有, type=0表示没有元素
+	 * VisitCallback type=-1表示此索引什么都没有, type=0表示没有精灵
 	 */
 	void VisitMap();
 
@@ -137,8 +137,8 @@ public:
 
 	/**
 	 * 执行消除
-	 * @param in_elements 将被消除的元素集合
-	 * @reutrn 被消除的元素数量
+	 * @param in_elements 将被消除的精灵集合
+	 * @reutrn 被消除的精灵数量
 	 */
 	virtual unsigned int DoEliminate(std::set<MapIndex> &in_elements);
 

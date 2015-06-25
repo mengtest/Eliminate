@@ -53,6 +53,9 @@ void GameLayer::InitElements()
 {
 	for (auto pair : used_elments)
 	{
+		pair.second->stopAllActions();
+		pair.second->setScale(1.0f);
+		pair.second->setOpacity(255);
 		pair.second->setVisible(false);
 		free_elements.push_back(pair.second);
 	}
