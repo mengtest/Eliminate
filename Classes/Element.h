@@ -42,44 +42,7 @@ public:
 	 */
 	void Eliminate(const std::function<void()> &func);
 
-public:
-	/**
-	 * 获取类型
-	 */
-	int GetType() const
-	{
-		return type_;
-	}
-
-	/**
-	 * 设置类型
-	 */
-	void SetType(int type)
-	{
-		type_ = type;
-	}
-
-	/**
-	 * 获取索引
-	 */
-	MapIndex GetIndex() const
-	{
-		return map_index_;
-	}
-
-	/**
-	 * 设置索引
-	 */
-	void SetIndex(const MapIndex &index)
-	{
-		map_index_ = index;
-	}
-
 private:
 	Element() = default;
 	~Element() = default;
-
-private:
-	int			type_;
-	MapIndex	map_index_;
 };

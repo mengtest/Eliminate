@@ -20,9 +20,24 @@ struct MapIndex
 	int					row;
 	int					col;
 
-	MapIndex() : row(0), col(0) {}
+	MapIndex() : row(INVALID_INDEX), col(INVALID_INDEX) {}
 
 	MapIndex(int row, int col) : row(row), col(col) {}
+
+	operator bool() const
+	{
+		return row != INVALID_INDEX && col != INVALID_INDEX;
+	}
+
+	bool operator== (const MapIndex &that) const
+	{
+		return row == that.row && col == that.col;
+	}
+
+	bool operator!= (const MapIndex &that) const
+	{
+		return row != that.row || col != that.col;
+	}
 
 	bool operator< (const MapIndex &that) const
 	{

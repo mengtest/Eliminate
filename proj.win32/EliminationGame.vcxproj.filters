@@ -48,6 +48,9 @@
     <ClCompile Include="..\Classes\Misc\Singleton.cpp">
       <Filter>src\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Backend.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -84,6 +87,9 @@
       <Filter>src\Misc</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Types.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
