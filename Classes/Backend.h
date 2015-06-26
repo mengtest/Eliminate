@@ -1,4 +1,10 @@
-﻿#pragma once
+﻿/**
+ * 三消游戏算法
+ * author: zhangpanyi@live.com
+ * https://github.com/zhangpanyi/Eliminate
+ */
+
+#pragma once
 
 #include <set>
 #include <cstdint>

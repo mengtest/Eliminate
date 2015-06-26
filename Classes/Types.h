@@ -1,4 +1,10 @@
-﻿#pragma once
+﻿/**
+ * 类型定义
+ * author: zhangpanyi@live.com
+ * https://github.com/zhangpanyi/Eliminate
+ */
+
+#pragma once
 
 #include <vector>
 

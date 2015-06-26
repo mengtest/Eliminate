@@ -1,6 +1,8 @@
-﻿/**************************************************
-游戏场景
-**************************************************/
+﻿/**
+ * 游戏场景
+ * author: zhangpanyi@live.com
+ * https://github.com/zhangpanyi/Eliminate
+ */
 
 #pragma once
 

@@ -1,6 +1,9 @@
-﻿/**************************************************
-游戏操作层
-**************************************************/
+﻿/**
+ * 操作层
+ * author: zhangpanyi@live.com
+ * https://github.com/zhangpanyi/Eliminate
+ */
+
 #pragma once
 
 #include <map>

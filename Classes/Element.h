@@ -1,6 +1,8 @@
-﻿/**************************************************
-游戏元素
-**************************************************/
+﻿/**
+ * 游戏元素
+ * author: zhangpanyi@live.com
+ * https://github.com/zhangpanyi/Eliminate
+ */
 
 #pragma once
 

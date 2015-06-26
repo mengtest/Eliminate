@@ -1,6 +1,8 @@
-﻿/**************************************************
-游戏配置
-**************************************************/
+﻿/**
+ * 游戏配置
+ * author: zhangpanyi@live.com
+ * https://github.com/zhangpanyi/Eliminate
+ */
 
 #pragma once
 
