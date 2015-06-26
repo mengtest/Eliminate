@@ -54,7 +54,6 @@ void GameLayer::InitElements()
 	for (auto pair : used_elments)
 	{
 		pair.second->setVisible(false);
-		dynamic_cast<Element *>(pair.second)->Reset();
 		free_elements.push_back(pair.second);
 	}
 	used_elments.clear();
@@ -101,10 +100,6 @@ MapIndex GameLayer::ConvertToMapIndex(const Vec2 &position) const
 // 变更完成
 void GameLayer::OnChangeFinished()
 {
-	// 更新界面
-	InitElements();
-	backend_.VisitMap();
-
 	// 落下精灵(返回false说明棋盘已经补满)
 	if (!backend_.FalldownSprite())
 	{
@@ -126,14 +121,23 @@ void GameLayer::OnChangeFinished()
 void GameLayer::OnEliminate(const MapIndex &index, unsigned int number, unsigned int total)
 {
 	// 执行ui上的消除
-	auto element_ptr = dynamic_cast<Element *>((*this->used_elments.find(index)).second);
-	element_ptr->Eliminate([=]()
+	auto itr = used_elments.find(index);
+	if (itr != used_elments.end())
 	{
-		if (number == total)
+		// 回收元素
+		auto element_ptr = dynamic_cast<Element *>((*itr).second);
+		used_elments.erase(itr);
+		free_elements.push_back(element_ptr);
+
+		// 执行消除动画
+		element_ptr->Eliminate([=]()
 		{
-			OnChangeFinished();
-		}
-	});
+			if (number == total)
+			{
+				OnChangeFinished();
+			}
+		});
+	}
 }
 
 // 刷新地图事件
@@ -193,10 +197,12 @@ void GameLayer::OnSpriteFalldown(const MapIndex &source, const MapIndex &target,
 	auto itr = used_elments.find(source);
 	if (itr != used_elments.end())
 	{
+		// 更新ui数据
 		auto source_ptr = dynamic_cast<Element *>((*itr).second);
 		used_elments.erase(itr);
 		used_elments[target] = source_ptr;
 
+		// 执行动画
 		if (source == target)
 		{
 			source_ptr->setPosition(ConvertToPosition(target));

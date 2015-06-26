@@ -21,11 +21,6 @@ public:
 
 public:
 	/**
-	 * 重置
-	 */
-	void Reset();
-
-	/**
 	 * 移动
 	 * @param duration 耗时
 	 * @param position 目标位置
