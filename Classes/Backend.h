@@ -27,13 +27,13 @@ public:
 
 
 	/**
-	 * 移动精灵
+	 * 精灵落下
 	 * @param source 精灵所在的地图索引
 	 * @param target 目标索引
 	 * @param number 当前精灵的编号
 	 * @param total 精灵总量
 	 */
-	virtual void OnMoveSprite(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total) = 0;
+	virtual void OnSpriteFalldown(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total) = 0;
 };
 
 class Backend
@@ -123,9 +123,9 @@ public:
 	void SwapSprite(const MapIndex &a, const MapIndex &b);
 
 	/**
-	 * 移动过的精灵是否可消除
+	 * 获取可以消除的移动过的精灵
 	 */
-	bool MovedSpriteCanEliminate(std::set<MapIndex> &out);
+	bool GetMovedSpriteAndCanEliminate(std::set<MapIndex> &out);
 
 public:
 	/**
@@ -143,10 +143,10 @@ public:
 	virtual unsigned int DoEliminate(std::set<MapIndex> &in_elements);
 
 	/**
-	 * 自动移动精灵
-	 * @reutrn 是否有精灵发生过移动
+	 * 落下精灵
+	 * @reutrn 是否有精灵落下
 	 */
-	virtual bool AutoMoveSprite();
+	virtual bool FalldownSprite();
 
 protected:
 	/**

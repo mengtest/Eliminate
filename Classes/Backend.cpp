@@ -183,7 +183,7 @@ void Backend::SwapSprite(const MapIndex &a, const MapIndex &b)
 }
 
 // 移动过的是否可消除精灵
-bool Backend::MovedSpriteCanEliminate(std::set<MapIndex> &out)
+bool Backend::GetMovedSpriteAndCanEliminate(std::set<MapIndex> &out)
 {
 	if (!initialized_)
 	{
@@ -202,6 +202,7 @@ bool Backend::MovedSpriteCanEliminate(std::set<MapIndex> &out)
 			}		
 		}
 	}
+	moved_sprites_.clear();
 	return out.empty() == false;
 }
 
@@ -360,8 +361,8 @@ struct MoveRoute
 	}
 };
 
-// 自动移动精灵
-bool Backend::AutoMoveSprite()
+// 落下精灵
+bool Backend::FalldownSprite()
 {
 	if (!initialized_)
 	{
@@ -392,7 +393,7 @@ bool Backend::AutoMoveSprite()
 	{
 		before_size = moved_set.size();
 
-		// 扩大变更范围
+		// 扩大搜索范围
 		if (souch_scope_.min_row > 0) --souch_scope_.min_row;
 		if (souch_scope_.min_col > 0) --souch_scope_.min_col;
 		if (souch_scope_.max_row < config_.height - 1) ++souch_scope_.max_row;
@@ -507,11 +508,11 @@ bool Backend::AutoMoveSprite()
 	for (auto &index : added_set)
 	{
 		moved_sprites_.insert(index);
-		delegate_->OnMoveSprite(index, index, ++number, total);
+		delegate_->OnSpriteFalldown(index, index, ++number, total);
 	}
 	for (auto &route : sp_move_route)
 	{
-		delegate_->OnMoveSprite(route.source, route.target, ++number, total);
+		delegate_->OnSpriteFalldown(route.source, route.target, ++number, total);
 	}
 
 	return moved_set.empty() ? added_set.empty() == false : true;

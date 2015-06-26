@@ -86,13 +86,20 @@ Element* Element::createWithSpriteFrameName(const std::string& spriteFrameName)
 	return createWithSpriteFrame(frame);
 }
 
+void Element::Reset()
+{
+	setScale(1.0f);
+	setOpacity(255);
+	stopAllActions();
+}
+
 void Element::Move(float duration, const cocos2d::Vec2& position, const std::function<void()> &func)
 {
 	CCAssert(func, "Invalid function object");
 	runAction(Sequence::create(MoveTo::create(duration, position), CallFunc::create(func), nullptr));
 }
 
-void Element::Fill(float duration, const cocos2d::Vec2& position, const std::function<void()> &func)
+void Element::Falldown(float duration, const cocos2d::Vec2& position, const std::function<void()> &func)
 {
 	CCAssert(func, "Invalid function object");
 	Move(duration, position, func);

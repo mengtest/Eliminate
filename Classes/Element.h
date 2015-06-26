@@ -21,6 +21,11 @@ public:
 
 public:
 	/**
+	 * 重置
+	 */
+	void Reset();
+
+	/**
 	 * 移动
 	 * @param duration 耗时
 	 * @param position 目标位置
@@ -29,12 +34,12 @@ public:
 	void Move(float duration, const cocos2d::Vec2& position, const std::function<void()> &func);
 
 	/**
-	 * 填充
+	 * 落下
 	 * @param duration 耗时
 	 * @param position 目标位置
 	 * @param func 回调函数
 	 */
-	void Fill(float duration, const cocos2d::Vec2& position, const std::function<void()> &func);
+	void Falldown(float duration, const cocos2d::Vec2& position, const std::function<void()> &func);
 
 	/**
 	 * 消除

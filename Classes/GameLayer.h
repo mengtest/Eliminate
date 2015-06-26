@@ -1,5 +1,5 @@
 ﻿/**************************************************
-游戏操作层/核心算法
+游戏操作层
 **************************************************/
 #pragma once
 
@@ -55,7 +55,7 @@ private:
 private:
 	virtual void OnEliminate(const MapIndex &index, unsigned int number, unsigned int total) override;
 	virtual void OnRefreshMap(const MapIndex &index, int type) override;
-	virtual void OnMoveSprite(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total) override;
+	virtual void OnSpriteFalldown(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total) override;
 
 private:
 	/**
@@ -74,14 +74,14 @@ private:
 	void SwapElementPosition();
 
 	/**
+	 * 更改完成
+	 */
+	void OnChangeFinished();
+
+	/**
 	 * 完成位置交换
 	 */
 	void SwapElementPositionFinished();
-
-	/**
-	 * 消除完成
-	 */
-	void OnEliminateFinished();
 	
 private:
 	/* a*算法 */

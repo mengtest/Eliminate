@@ -53,10 +53,8 @@ void GameLayer::InitElements()
 {
 	for (auto pair : used_elments)
 	{
-		pair.second->stopAllActions();
-		pair.second->setScale(1.0f);
-		pair.second->setOpacity(255);
 		pair.second->setVisible(false);
+		dynamic_cast<Element *>(pair.second)->Reset();
 		free_elements.push_back(pair.second);
 	}
 	used_elments.clear();
@@ -100,18 +98,18 @@ MapIndex GameLayer::ConvertToMapIndex(const Vec2 &position) const
 	return MapIndex(INVALID_INDEX, INVALID_INDEX);
 }
 
-// 完成消除
-void GameLayer::OnEliminateFinished()
+// 变更完成
+void GameLayer::OnChangeFinished()
 {
 	// 更新界面
 	InitElements();
 	backend_.VisitMap();
 
-	// 精灵自动移动
-	if (!backend_.AutoMoveSprite())
+	// 落下精灵(返回false说明棋盘已经补满)
+	if (!backend_.FalldownSprite())
 	{
 		std::set<MapIndex> eliminate_set;
-		if (!backend_.MovedSpriteCanEliminate(eliminate_set))
+		if (!backend_.GetMovedSpriteAndCanEliminate(eliminate_set))
 		{
 			touch_lock_ = false;
 			previous_selected_.col = INVALID_INDEX;
@@ -133,7 +131,7 @@ void GameLayer::OnEliminate(const MapIndex &index, unsigned int number, unsigned
 	{
 		if (number == total)
 		{
-			OnEliminateFinished();
+			OnChangeFinished();
 		}
 	});
 }
@@ -187,10 +185,10 @@ void GameLayer::OnRefreshMap(const MapIndex &index, int type)
 	}
 }
 
-// 补充精灵事件
-void GameLayer::OnMoveSprite(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total)
+// 精灵落下事件
+void GameLayer::OnSpriteFalldown(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total)
 {
-	// 执行ui上的补充动画
+	// 执行ui上的落下动画
 	auto config = Config::GetInstance();
 	auto itr = used_elments.find(source);
 	if (itr != used_elments.end())
@@ -202,13 +200,13 @@ void GameLayer::OnMoveSprite(const MapIndex &source, const MapIndex &target, uns
 		if (source == target)
 		{
 			source_ptr->setPosition(ConvertToPosition(target));
-			if (number == total) OnEliminateFinished();
+			if (number == total) OnChangeFinished();
 		}
 		else
 		{
-			source_ptr->Fill(source == target ? 0.0f : config->GetElementFillTime(), ConvertToPosition(target), [=]()
+			source_ptr->Falldown(source == target ? 0.0f : config->GetElementFillTime(), ConvertToPosition(target), [=]()
 			{
-				if (number == total) OnEliminateFinished();
+				if (number == total) OnChangeFinished();
 			});
 		}
 	}
@@ -306,6 +304,7 @@ void GameLayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event)
 		{
 			if (previous_selected_ != (*itr).first)
 			{
+				// 判断当前选择索引与上次选择索引是否相邻
 				if (backend_.IsAdjacent((*itr).first, previous_selected_))
 				{
 					touch_lock_ = true;
