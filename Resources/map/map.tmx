@@ -3,9 +3,9 @@
  <tileset firstgid="1" name="tiled" tilewidth="90" tileheight="90">
   <image source="tiled.png" width="90" height="90"/>
  </tileset>
- <layer name="3" width="8" height="8">
+ <layer name="2" width="8" height="8">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYIRiGCCFz0ghxmcGun2k6CUWAwAY6AA1
+   eJxjZGBgYGTABIxEYgY8+gmZRYw8KepJsQMGABaYAC0=
   </data>
  </layer>
 </map>
