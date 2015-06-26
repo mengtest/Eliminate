@@ -210,7 +210,7 @@ void GameLayer::OnSpriteFalldown(const MapIndex &source, const MapIndex &target,
 		}
 		else
 		{
-			source_ptr->Falldown(source == target ? 0.0f : config->GetElementFillTime(), ConvertToPosition(target), [=]()
+			source_ptr->Falldown(source == target ? 0.0f : config->GetElementFalldownTime(), ConvertToPosition(target), [=]()
 			{
 				if (number == total) OnChangeFinished();
 			});

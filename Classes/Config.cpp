@@ -6,10 +6,11 @@ using namespace cocos2d;
 
 
 Config::Config()
-	: fill_time_(0.0f)
+	: fall_down_time_(0.0f)
 	, move_time_(0.0f)
 	, element_width_(0)
-	, element_height(0)
+	, element_height_(0)
+	, type_quantity_(0)
 {
 	ReadConfigFile();
 }
@@ -29,10 +30,11 @@ void Config::ReadConfigFile()
 	doc.Parse<0>(json.c_str());
 	CCAssert(!doc.HasParseError(), "doc.HasParseError()");
 
-	fill_time_ = doc["FillTime"].GetDouble();
+	element_width_ = doc["Width"].GetInt();
+	element_height_ = doc["Height"].GetInt();
+	type_quantity_ = doc["TypeQuantity"].GetInt();
 	move_time_ = doc["MoveTime"].GetDouble();
-	element_width_ = doc["ELWidth"].GetInt();
-	element_height = doc["ELHeight"].GetInt();
+	fall_down_time_ = doc["FallDownTime"].GetDouble();
 }
 
 /* 读取地图配置文件 */
@@ -52,8 +54,13 @@ MapConfig Config::ReadMapConfig(const std::string &filename)
 
 	config.width = layer_ize.width;
 	config.height = layer_ize.height;
-	config.type = atoi(layers.front()->_name.c_str());
+	config.type_quantity = atoi(layers.front()->_name.c_str());
 	const size_t max_size = layer_ize.width * layer_ize.height;
+
+	if (config.type_quantity > type_quantity_)
+	{
+		config.type_quantity = type_quantity_;
+	}
 
 	for (size_t idx = 0; idx < max_size; ++idx)
 	{

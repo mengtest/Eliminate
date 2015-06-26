@@ -1,6 +1,7 @@
 {
-    "ELWidth": 74,
-    "ELHeight": 73,
+    "Width": 74,
+    "Height": 73,
+	"TypeQuantity" : 9,
     "MoveTime": 0.25,
-    "FillTime": 0.10
+    "FallDownTime": 0.10
 }

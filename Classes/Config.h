@@ -12,6 +12,12 @@ class Config final : public Singleton < Config >
 	SINGLETON(Config);
 
 public:
+	/* 获取类型数量 */
+	int GetTypeQuantity() const
+	{
+		return type_quantity_;
+	}
+
 	/* 获取元素宽度 */
 	int GetElementWidth() const
 	{
@@ -21,13 +27,13 @@ public:
 	/* 获取元素高度 */
 	int GetElementHeight() const
 	{
-		return element_height;
+		return element_height_;
 	}
 
-	/* 获取元素填充时间 */
-	float GetElementFillTime() const
+	/* 获取元素落下时间 */
+	float GetElementFalldownTime() const
 	{
-		return fill_time_;
+		return fall_down_time_;
 	}
 
 	/* 获取元素移动时间 */
@@ -44,8 +50,9 @@ private:
 	void ReadConfigFile();
 
 private:
-	float fill_time_;
 	float move_time_;
+	float fall_down_time_;
 	int element_width_;
-	int element_height;
+	int element_height_;
+	int type_quantity_;
 };

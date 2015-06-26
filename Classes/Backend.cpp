@@ -54,7 +54,7 @@ int Backend::RandSpriteType() const
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, config_.type);
+	std::uniform_int_distribution<> dis(1, config_.type_quantity);
 	return dis(gen);
 }
 

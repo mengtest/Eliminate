@@ -8,10 +8,10 @@ static const int INVALID_INDEX = -1;
 /* 地图配置 */
 struct MapConfig
 {
-	int					height;	// 地图行数
-	int					width;	// 地图列数
-	int					type;	// 类型数量
-	std::vector<bool>	data;	// 有效区域
+	int					height;			// 地图行数
+	int					width;			// 地图列数
+	int					type_quantity;	// 类型数量
+	std::vector<bool>	data;			// 有效区域
 };
 
 /* 地图索引 */
