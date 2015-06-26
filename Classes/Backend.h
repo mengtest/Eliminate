@@ -7,7 +7,6 @@
 #pragma once
 
 #include <set>
-#include <cstdint>
 #include <functional>
 
 #include "AStar.h"
