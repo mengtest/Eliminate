@@ -225,11 +225,9 @@ void GameLayer::OnSpriteFalldown(const MapIndex &source, const MapIndex &target,
 // 设置地图
 void GameLayer::SetMap(const MapConfig &map_config)
 {
-	backend_.SetMap(map_config);
-
 	InitFloor();
 	InitElements();
-	backend_.VisitMap();
+	backend_.SetMap(map_config);
 }
 
 // 完成位置交换

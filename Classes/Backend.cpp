@@ -18,10 +18,11 @@ void Backend::SetMap(const MapConfig &config)
 	{
 		config_ = config;
 		sprites_.clear();
+		moved_sprites_.clear();
 		souch_scope_.init();
 		initialized_ = true;
-		moved_sprites_.clear();
 		ReGeneration();
+		VisitMap();
 	}
 	else
 	{
