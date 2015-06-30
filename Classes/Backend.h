@@ -47,7 +47,7 @@ public:
 	enum
 	{
 		NOTHING = -1,
-		NO_ELEMENT = 0,
+		NOSPRITE = 0,
 	};
 
 	struct Scope

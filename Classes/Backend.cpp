@@ -146,7 +146,7 @@ bool Backend::IsValidSprite(const MapIndex &index)
 	if (index.col >= 0 && index.row >= 0 && index.col < config_.width && index.row < config_.height)
 	{
 		int type = sprites_[index.row * config_.width + index.col];
-		return (type != NOTHING) && (type != NO_ELEMENT);
+		return (type != NOTHING) && (type != NOSPRITE);
 	}
 	return false;
 }
@@ -195,7 +195,7 @@ bool Backend::GetMovedSpriteAndCanEliminate(std::set<MapIndex> &out)
 	std::set<MapIndex> eliminate_set;
 	for (auto &index : moved_sprites_)
 	{
-		if (sprites_[index.row * config_.width + index.col] > NO_ELEMENT && IsCanEliminate(index, eliminate_set))
+		if (sprites_[index.row * config_.width + index.col] > NOSPRITE && IsCanEliminate(index, eliminate_set))
 		{
 			for (auto can_eliminate_index : eliminate_set)
 			{
@@ -309,7 +309,7 @@ unsigned int Backend::DoEliminate(std::set<MapIndex> &in_elements)
 			throw std::runtime_error("invalid element index!");
 		}
 #endif
-		sprites_[index.row * config_.width + index.col] = NO_ELEMENT;
+		sprites_[index.row * config_.width + index.col] = NOSPRITE;
 		souch_scope_.update(index);
 		delegate_->OnEliminate(index, ++count, in_elements.size());
 	}
@@ -335,7 +335,7 @@ unsigned int Backend::AddSpriteToFristLine(std::set<MapIndex> &out)
 			const int base = row * config_.width;
 			for (int col = 0; col < config_.width; ++col)
 			{
-				if (sprites_[base + col] == NO_ELEMENT)
+				if (sprites_[base + col] == NOSPRITE)
 				{
 					sprites_[base + col] = RandSpriteType();
 					out.insert(MapIndex(row, col));
@@ -409,12 +409,12 @@ bool Backend::FalldownSprite()
 				const int next_row_idx = (row + 1) * config_.width + col;
 
 				// 如果此处有精灵并且在此轮中没有被移动过
-				if ((sprites_[current_idx] > NO_ELEMENT) && (moved_set.find(MapIndex(row, col)) == moved_set.end()))
+				if ((sprites_[current_idx] > NOSPRITE) && (moved_set.find(MapIndex(row, col)) == moved_set.end()))
 				{
 					// 向下补充
 					if ((row + 1 < config_.height)
 						&& (config_.data[next_row_idx])
-						&& (sprites_[next_row_idx] == NO_ELEMENT))
+						&& (sprites_[next_row_idx] == NOSPRITE))
 					{
 						moved_set.insert(MapIndex(row + 1, col));
 						std::swap(sprites_[current_idx], sprites_[next_row_idx]);
@@ -427,7 +427,7 @@ bool Backend::FalldownSprite()
 						if (col - 1 >= 0
 							&& (config_.data[current_idx - 1])
 							&& (!config_.data[previous_row_idx - 1])
-							&& (sprites_[current_idx - 1] == NO_ELEMENT))
+							&& (sprites_[current_idx - 1] == NOSPRITE))
 						{
 							// 如果空格的左边是有效格
 							if (col - 2 >= 0 && config_.data[current_idx - 2])
@@ -439,7 +439,7 @@ bool Backend::FalldownSprite()
 									sp_move_route.push_back(MoveRoute(MapIndex(row, col), MapIndex(row, col - 1)));
 									continue;
 								}
-								else if (sprites_[current_idx - 2] > NO_ELEMENT
+								else if (sprites_[current_idx - 2] > NOSPRITE
 										 && moved_set.find(MapIndex(row, col - 2)) == moved_set.end())
 								{
 									moved_set.insert(MapIndex(row, col - 1));
@@ -461,7 +461,7 @@ bool Backend::FalldownSprite()
 						if (col + 1 < config_.width
 							&& (config_.data[current_idx + 1])
 							&& (!config_.data[previous_row_idx + 1])
-							&& (sprites_[current_idx + 1] == NO_ELEMENT))
+							&& (sprites_[current_idx + 1] == NOSPRITE))
 						{
 							// 如果空格的右边是有效格
 							if (col + 2 < config_.width && config_.data[current_idx + 2])
@@ -473,7 +473,7 @@ bool Backend::FalldownSprite()
 									sp_move_route.push_back(MoveRoute(MapIndex(row, col), MapIndex(row, col + 1)));
 									continue;
 								}
-								else if (sprites_[current_idx + 2] > NO_ELEMENT
+								else if (sprites_[current_idx + 2] > NOSPRITE
 										 && moved_set.find(MapIndex(row, col + 2)) == moved_set.end())
 								{
 									moved_set.insert(MapIndex(row, col + 1));
