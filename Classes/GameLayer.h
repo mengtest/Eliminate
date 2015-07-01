@@ -7,10 +7,6 @@
 #pragma once
 
 #include <map>
-#include <array>
-#include <vector>
-#include "AStar.h"
-#include "Types.h"
 #include "Backend.h"
 #include "cocos2d.h"
 
