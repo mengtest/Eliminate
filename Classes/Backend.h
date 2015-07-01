@@ -42,7 +42,7 @@ public:
 	virtual void OnSpriteFalldown(const MapIndex &source, const MapIndex &target, unsigned int number, unsigned int total) = 0;
 };
 
-class Backend
+class Backend : public NonCopyable
 {
 public:
 	enum
