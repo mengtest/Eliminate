@@ -1,12 +1,12 @@
 ﻿#include "Backend.h"
 
-#include <random>
 #include <cassert>
 #include <algorithm>
 
 Backend::Backend(BackendDelegate *delegate)
 	: initialized_(false)
 	, delegate_(delegate)
+	, generator_(std::random_device()())
 {
 	assert(delegate_);
 }
@@ -50,13 +50,11 @@ int Backend::GetMapHeight() const
 	return config_.height;
 }
 
-// 随机精灵类型
-int Backend::RandSpriteType() const
+// 取随机数
+int Backend::Random(const int min, const int max)
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, config_.type_quantity);
-	return dis(gen);
+	std::uniform_int_distribution<> dis(min, max);
+	return dis(generator_);
 }
 
 // 精灵是否相邻
@@ -131,7 +129,7 @@ void Backend::ReGeneration()
 
 	for (int idx = 0; idx < config_.width * config_.height; ++idx)
 	{
-		sprites_.push_back(config_.data[idx] ? RandSpriteType() : NOTHING);
+		sprites_.push_back(config_.data[idx] ? Random(1, config_.type_quantity) : NOTHING);
 	}
 }
 
@@ -337,7 +335,7 @@ unsigned int Backend::AddSpriteToFristLine(std::set<MapIndex> &out)
 			{
 				if (sprites_[base + col] == NOSPRITE)
 				{
-					sprites_[base + col] = RandSpriteType();
+					sprites_[base + col] = Random(1, config_.type_quantity);
 					out.insert(MapIndex(row, col));
 					delegate_->OnRefreshMap(MapIndex(row, col), sprites_[base + col]);
 					++count;

@@ -7,6 +7,7 @@
 #pragma once
 
 #include <set>
+#include <random>
 #include <functional>
 
 #include "AStar.h"
@@ -170,9 +171,9 @@ protected:
 
 private:
 	/**
-	 * 随机精灵类型
+	 * 取随机数
 	 */
-	int RandSpriteType() const;
+	int Random(const int min, const int max);
 
 	/**
 	 * 计算最短距离
@@ -185,6 +186,7 @@ private:
 	MapConfig			config_;
 	Scope				souch_scope_;
 	a_star::AStar		a_star_;
+	std::mt19937		generator_;
 	std::vector<int>	sprites_;
 	std::set<MapIndex>	moved_sprites_;
 };
